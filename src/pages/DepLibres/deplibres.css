@@ -1,0 +1,28 @@
+.page-dep-libres {
+  background-color: #3e4144;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.header-dep-libres {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.header-dep-libres .button-back {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.title-page {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

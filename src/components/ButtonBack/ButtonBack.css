@@ -1,0 +1,13 @@
+.btn-container-back {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  font-size: 1.2rem;
+  width: fit-content;
+  border-radius: 15px;
+  padding: 0 10px;
+  background-color: #cd9619;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
