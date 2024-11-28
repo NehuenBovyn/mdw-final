@@ -12,7 +12,11 @@ const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (event?: React.FormEvent) => {
+    if (event) {
+      event.preventDefault();
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -55,7 +59,7 @@ const Login = () => {
             <Logo width="150px" height="150px" />
           </div>
           <div className="p-5">
-            <form action="">
+            <form onSubmit={handleLogin}>
               <label htmlFor="email" className="font-800 text-2xl ">
                 Email
               </label>
@@ -74,9 +78,10 @@ const Login = () => {
                 onChange={e => setPassword(e.target.value)}
                 className="bg-[#D9D9D9] p-2 w-full "
               />
+              <button type="submit" style={{ display: 'none' }}></button>
             </form>
             <div className="flex flex-col gap-2">
-              <a href="">¿Olvidaste tu contraseña?</a>
+              <Link to="/reset-password">¿Olvidaste tu contraseña?</Link>
               <Link to="/register">Registrarse</Link>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonRedirect from '../../components/ButtonRedirect/ButtonRedirect';
@@ -6,37 +6,38 @@ import Logo from '../../components/Logo/Logo';
 import { Notify } from '../../components/Notification/Notification';
 import { auth } from '../../config/firebase';
 
-const Register = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handlerRegister = async () => {
-    if (!email || !password) {
+  const handleResetPassword = async (event?: React.FormEvent) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    if (!email.trim()) {
       Notify({
-        message: 'Por favor, completa todos los campos.',
+        message: 'Por favor, ingresa un correo electrónico válido.',
         type: 'error',
       });
       return;
     }
 
+    setIsSubmitting(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(userCredential, 'CREDENCIALEEEES');
+      await sendPasswordResetEmail(auth, email);
       Notify({
-        message: 'Registro exitoso. Redirigiendo al login...',
+        message:
+          'Correo enviado. Revisa tu bandeja para restablecer tu contraseña.',
         type: 'success',
       });
       setEmail('');
-      setPassword('');
-      navigate('/login');
     } catch (error) {
       const errorMessage = mapFirebaseError((error as Error).message);
       Notify({ message: errorMessage, type: 'error' });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -45,12 +46,10 @@ const Register = () => {
     const errorCode = errorCodeMatch ? errorCodeMatch[1] : 'unknown';
 
     switch (errorCode) {
-      case 'auth/email-already-in-use':
-        return 'El correo ya está en uso.';
+      case 'auth/user-not-found':
+        return 'Usuario no encontrado.';
       case 'auth/invalid-email':
         return 'El correo no es válido.';
-      case 'auth/weak-password':
-        return 'La contraseña debe tener al menos 6 caracteres.';
       default:
         return 'Ocurrió un error. Por favor, intenta de nuevo.';
     }
@@ -64,9 +63,9 @@ const Register = () => {
             <Logo width="150px" height="150px" />
           </div>
           <div className="p-5">
-            <form onSubmit={e => e.preventDefault()}>
+            <form onSubmit={handleResetPassword}>
               <label htmlFor="email" className="font-800 text-2xl">
-                Email
+                Ingresa tu correo electrónico
               </label>
               <input
                 id="email"
@@ -75,28 +74,27 @@ const Register = () => {
                 onChange={e => setEmail(e.target.value)}
                 className="bg-[#D9D9D9] p-2 w-full"
               />
-              <label htmlFor="password" className="font-800 text-2xl">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="bg-[#D9D9D9] p-2 w-full"
-              />
+              <button
+                type="submit"
+                className={`mt-4 p-2 w-full ${
+                  isSubmitting ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'
+                } text-white rounded`}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Enviando...' : 'Restablecer Contraseña'}
+              </button>
             </form>
           </div>
         </div>
-        <div className="mt-auto">
+        <div className="mt-auto ">
           <ButtonRedirect
-            label="Registrarse"
-            onClick={handlerRegister}
+            label="Iniciar Sesión"
+            onClick={() => navigate('/login')}
             colorType="type1"
           />
           <ButtonRedirect
-            label="Login"
-            onClick={() => navigate('/login')}
+            label="Registrarse"
+            onClick={() => navigate('/register')}
             colorType="type2"
           />
         </div>
@@ -105,4 +103,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ResetPassword;
