@@ -5,14 +5,24 @@ import ButtonRedirect from '../../components/ButtonRedirect/ButtonRedirect';
 import Logo from '../../components/Logo/Logo';
 import { Notify } from '../../components/Notification/Notification';
 import { auth } from '../../config/firebase';
+import { createUser } from '../../services/user';
+
+interface CreateUserData {
+  email: string;
+  firebase_id: string;
+  name: string;
+  phone: string;
+}
 
 const Register = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [fullName, setFullName] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
 
   const handlerRegister = async () => {
-    if (!email || !password) {
+    if (!email || !password || !fullName || !phone) {
       Notify({
         message: 'Por favor, completa todos los campos.',
         type: 'error',
@@ -26,7 +36,15 @@ const Register = () => {
         email,
         password
       );
-      console.log(userCredential, 'CREDENCIALEEEES');
+
+      const userData: CreateUserData = {
+        firebase_id: userCredential.user.uid,
+        name: fullName,
+        email,
+        phone,
+      };
+      await createUser(userData);
+
       Notify({
         message: 'Registro exitoso. Redirigiendo al login...',
         type: 'success',
@@ -63,10 +81,20 @@ const Register = () => {
           <div className="flex justify-center">
             <Logo width="150px" height="150px" />
           </div>
-          <div className="p-5">
+          <div className="p-5 w-96">
             <form onSubmit={e => e.preventDefault()}>
+              <label htmlFor="fullName" className="font-800 text-2xl">
+                Nombre completo <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="fullName"
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                className="bg-[#D9D9D9] p-2 w-full"
+              />
               <label htmlFor="email" className="font-800 text-2xl">
-                Email
+                Email <span className="text-red-500">*</span>
               </label>
               <input
                 id="email"
@@ -75,8 +103,18 @@ const Register = () => {
                 onChange={e => setEmail(e.target.value)}
                 className="bg-[#D9D9D9] p-2 w-full"
               />
+              <label htmlFor="phone" className="font-800 text-2xl">
+                Teléfono <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                className="bg-[#D9D9D9] p-2 w-full"
+              />
               <label htmlFor="password" className="font-800 text-2xl">
-                Contraseña
+                Contraseña <span className="text-red-500">*</span>
               </label>
               <input
                 type="password"
@@ -95,7 +133,7 @@ const Register = () => {
             colorType="type1"
           />
           <ButtonRedirect
-            label="Login"
+            label="Iniciar sesión"
             onClick={() => navigate('/login')}
             colorType="type2"
           />

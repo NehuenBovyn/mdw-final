@@ -1,9 +1,11 @@
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import Layout from './components/Layout/Layout';
 import DepLibres from './pages/DepLibres';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import Register from './pages/Register';
 import ResetPassword from './pages/ResetPassword';
 
@@ -11,7 +13,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           success: {
             duration: 3000,
@@ -37,12 +39,17 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dep-libres" element={<DepLibres />} />
 
-        {/* Rutas privadas */}
+        {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/home" element={<Home />} />
+          <Route element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* //en caso de que este logueado que no lo redireccione a login devuelta */}
+            <Route path="*" element={<Navigate to="/home" replace />} />
+          </Route>
         </Route>
 
-        {/* Redirección por defecto */}
+        {/* Por defecto */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

@@ -1,8 +1,11 @@
-// import './deplibres.css';
+import Logo from '../../components/Logo/Logo';
+
 const Home = () => {
   return (
     <>
-      <h1>HOMEEEEEEEEEEEE</h1>
+      <div className="flex items-center justify-center h-full flex-col gap-5">
+        <Logo width="150px" height="150px" />
+      </div>
     </>
   );
 };

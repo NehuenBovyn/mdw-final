@@ -18,12 +18,7 @@ const Login = () => {
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(userCredential);
+      await signInWithEmailAndPassword(auth, email, password);
       Notify({
         message: 'Bienvenido',
         type: 'success',
