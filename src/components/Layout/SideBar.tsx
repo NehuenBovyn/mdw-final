@@ -12,7 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-secondary text-white transform sidebar-menu ${
+      className={`fixed top-0 left-0 h-full z-50 bg-secondary text-white transform sidebar-menu ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } transition-transform w-64`}
     >
