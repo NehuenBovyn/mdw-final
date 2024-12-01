@@ -35,7 +35,7 @@ const AparmentEdit: React.FC<AparmentProps> = props => {
         <h3 className="text-2xl font-bold">{building}</h3>
       </div>
 
-      <div className="p-4  ">
+      <div className="p-4">
         <p className="mb-2">
           <span className="font-semibold">Descripción:</span> {description}
         </p>
@@ -49,29 +49,31 @@ const AparmentEdit: React.FC<AparmentProps> = props => {
         </p>
       </div>
 
-      <div className=" flex items-center justify-between">
+      <div className="flex items-center justify-between">
         {typeAction === 'edit' ? (
-          <button
-            className="flex items-center gap-2 px-4 p-2  hover:text-primary  text-white rounded-md"
-            onClick={() =>
-              navigate('/edit-aparment', {
-                state: { id_apartment: id_apartment },
-              })
-            }
-          >
-            <span className="material-icons ">edit</span>
-          </button>
+          <>
+            <button
+              className="flex items-center gap-2 px-4 p-2 hover:text-primary text-white rounded-md"
+              onClick={() =>
+                navigate('/edit-aparment', {
+                  state: { id_apartment: id_apartment },
+                })
+              }
+            >
+              <span className="material-icons">edit</span>
+            </button>
+          </>
         ) : (
           <>
             <button
-              className="flex items-center gap-2 px-4 py-2  hover:text-primary text-white rounded-md"
+              className="flex items-center gap-2 px-4 py-2 hover:text-primary text-white rounded-md"
               onClick={() => window.open(`tel:${phone}`)}
             >
               <span className="material-icons">phone</span>
               Llamar
             </button>
             <button
-              className="flex items-center gap-2 px-4 py-2  hover:text-primary text-white rounded-md"
+              className="flex items-center gap-2 px-4 py-2 hover:text-primary text-white rounded-md"
               onClick={() => window.open(`mailto:${email}`)}
             >
               <span className="material-icons">email</span>

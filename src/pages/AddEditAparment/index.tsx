@@ -5,6 +5,7 @@ import ButtonBack from '../../components/ButtonBack/ButtonBack';
 import { Notify } from '../../components/Notification/Notification';
 import {
   createAparment,
+  deleteAparment,
   getAparmentById,
   updateAparment,
 } from '../../services/aparment';
@@ -50,6 +51,26 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
     }
   }, [typeAction]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const deleteApartment = async () => {
+    try {
+      console.log('id_apartment:APARMEEEEENT', id_apartment);
+      await deleteAparment(id_apartment);
+      setIsModalOpen(false);
+      Notify({
+        message: 'Apartamento eliminado con éxito',
+        type: 'success',
+      });
+      navigate('/my-aparments');
+    } catch (error) {
+      Notify({
+        message: 'Error al eliminar el apartamento: ' + error,
+        type: 'error',
+      });
+    }
+  };
+
   const handleAddEditAparment = async () => {
     if (!nameBuilding || !m2 || !floor || !codAparment || !adress) {
       Notify({
@@ -70,6 +91,8 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           cod: codAparment,
           description,
           building: nameBuilding,
+          phone: '',
+          email: '',
         });
         Notify({
           message: 'Departamento agregado correctamente.',
@@ -86,6 +109,8 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           cod: codAparment,
           description,
           building: nameBuilding,
+          phone: '',
+          email: '',
         });
         Notify({
           message: 'Departamento editado correctamente.',
@@ -169,12 +194,44 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           <button
             onClick={handleAddEditAparment}
             disabled={loading}
-            className="mt-2 w-full bg-primary text-white py-2 rounded-lg hover:bg-tertiary disabled:opacity-50"
+            className="mt-2 w-full flex items-center justify-center bg-primary text-white py-2 rounded-lg hover:bg-tertiary disabled:opacity-50"
           >
+            <span className="material-icons">save</span>
             {loading ? 'Guardando...' : 'Guardar departamento'}
           </button>
+          {typeAction === 'edit' && (
+            <button
+              className="flex items-center gap-2 px-4 p-2 justify-center bg-red-600 hover:bg-red-300 text-center text-white rounded-md"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <span className="material-icons">delete</span>
+              Eliminar departamento
+            </button>
+          )}
         </div>
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 text-black max-w-sm w-full">
+            <h3 className="text-lg font-bold mb-4">Confirmar eliminación</h3>
+            <p>¿Estás seguro de que deseas eliminar este apartamento?</p>
+            <div className="flex justify-end gap-4 mt-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-md"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={deleteApartment}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
