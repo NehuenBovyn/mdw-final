@@ -4,16 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import AparmentEdit from '../../components/AparmentEdit/AparmentEdit';
 import ButtonRedirect from '../../components/ButtonRedirect/ButtonRedirect';
 import { getAparmentByUser } from '../../services/aparment';
+import './MyAparments.css'; // Importa el archivo CSS
 
 interface AparmentData {
   id_apartment: string;
   firebase_id: string;
   adress: string;
-  m2: string;
-  floor: string;
+  m2: number;
+  floor: number;
   cod: string;
   description: string;
   building: string;
+  phone: string;
+  email: string;
 }
 
 const MyAparments = () => {
@@ -35,15 +38,15 @@ const MyAparments = () => {
   }, []);
 
   return (
-    <div>
-      <div className="margin-negative">
+    <div className="my-aparments-container">
+      <div className="header">
         <ButtonRedirect
           label="Agregar un departamento"
           onClick={() => navigate('/add-aparment')}
           colorType="type1"
         />
       </div>
-      <div>
+      <div className="aparments-list">
         {aparments.map(aparment => (
           <AparmentEdit
             key={aparment.id_apartment}
@@ -54,7 +57,8 @@ const MyAparments = () => {
             cod={aparment.cod}
             adress={aparment.adress}
             description={aparment.description}
-            phone=""
+            phone={aparment.phone}
+            email={aparment.email}
             typeAction="edit"
           />
         ))}

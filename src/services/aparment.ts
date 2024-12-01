@@ -8,11 +8,13 @@ export interface AparmentData {
   id_apartment: string;
   firebase_id: string;
   adress: string;
-  m2: string;
-  floor: string;
+  m2: number;
+  floor: number;
   cod: string;
   description: string;
+  phone: string;
   building: string;
+  email: string;
 }
 
 export const getAparmentById = async (id: string): Promise<AparmentData> => {

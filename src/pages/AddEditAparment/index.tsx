@@ -34,8 +34,8 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
         try {
           const aparmentData = await getAparmentById(id_apartment);
           setnameBuilding(aparmentData.building);
-          setm2(aparmentData.m2);
-          setFloor(aparmentData.floor);
+          setm2(aparmentData.m2.toString());
+          setFloor(aparmentData.floor.toString());
           setCodAparment(aparmentData.cod);
           setAdress(aparmentData.adress);
           setDescription(aparmentData.description);
@@ -65,8 +65,8 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           id_apartment: '',
           firebase_id: firebaseId,
           adress,
-          m2,
-          floor,
+          m2: Number(m2),
+          floor: Number(floor),
           cod: codAparment,
           description,
           building: nameBuilding,
@@ -81,8 +81,8 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           id_apartment: '',
           firebase_id: firebaseId,
           adress,
-          m2,
-          floor,
+          m2: Number(m2),
+          floor: Number(floor),
           cod: codAparment,
           description,
           building: nameBuilding,
@@ -142,7 +142,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
             <label className="block text-gray-700">Piso:</label>
             <span className="text-red-500">*</span>
             <input
-              type="text"
+              type="number"
               value={floor}
               onChange={e => setFloor(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
