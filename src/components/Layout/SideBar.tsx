@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonRedirect from '../ButtonRedirect/ButtonRedirect';
-import './Sidebar.css';
+import './sidebar.css';
 
 interface SidebarProps {
   isOpen: boolean;
