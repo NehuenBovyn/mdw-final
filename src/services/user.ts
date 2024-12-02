@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:5432',
+  baseURL: 'https://mdw-final-server.onrender.com',
 });
 
 export interface UserData {
