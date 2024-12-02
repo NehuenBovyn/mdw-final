@@ -27,24 +27,24 @@ const DepLibres = () => {
         <div className="header-dep-libres">
           <h1 className="title-page">Departamentos disponibles</h1>
         </div>
-        <div>
-          <div className="container-dep-libres">
-            {aparments.map(aparment => (
-              <AparmentEdit
-                key={aparment.id_apartment}
-                typeAction="view"
-                id_apartment={aparment.id_apartment}
-                building={aparment.building}
-                cod={aparment.cod}
-                adress={aparment.adress}
-                description={aparment.description}
-                phone={aparment.phone}
-                m2={aparment.m2}
-                email={aparment.email}
-                floor={aparment.floor}
-              />
-            ))}
-          </div>
+
+        <div className="container-dep-libres">
+          {aparments.map(aparment => (
+            <AparmentEdit
+              key={aparment.id_apartment}
+              typeAction="view"
+              id_apartment={aparment.id_apartment}
+              building={aparment.building}
+              cod={aparment.cod}
+              adress={aparment.adress}
+              description={aparment.description}
+              phone={aparment.phone}
+              m2={aparment.m2}
+              email={aparment.email}
+              floor={aparment.floor}
+              free={aparment.free}
+            />
+          ))}
         </div>
       </div>
     </>

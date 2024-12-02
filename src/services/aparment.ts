@@ -15,11 +15,10 @@ export interface AparmentData {
   phone: string;
   building: string;
   email: string;
+  free: boolean;
 }
 
 export const getAparmentById = async (id: string): Promise<AparmentData> => {
-  console.log('id GETAPARMENTBYID:', id);
-
   try {
     const response = await apiClient.get<AparmentData>(`/aparments/${id}`);
     return response.data;

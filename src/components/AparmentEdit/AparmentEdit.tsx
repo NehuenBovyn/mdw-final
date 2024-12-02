@@ -12,6 +12,7 @@ interface AparmentProps {
   phone: string;
   typeAction: string;
   email: string;
+  free: Boolean;
 }
 
 const AparmentEdit: React.FC<AparmentProps> = props => {
@@ -27,6 +28,7 @@ const AparmentEdit: React.FC<AparmentProps> = props => {
     typeAction,
     id_apartment,
     email,
+    free,
   } = props;
 
   return (
@@ -46,6 +48,9 @@ const AparmentEdit: React.FC<AparmentProps> = props => {
         </p>
         <p className="mb-2">
           <span className="font-semibold">Ubicación:</span> {adress}
+        </p>
+        <p className="mb-2">
+          <span className="font-semibold">Libre:</span> {free ? 'Si' : 'No'}
         </p>
       </div>
 

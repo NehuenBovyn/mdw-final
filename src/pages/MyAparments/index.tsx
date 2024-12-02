@@ -17,6 +17,7 @@ interface AparmentData {
   building: string;
   phone: string;
   email: string;
+  free: boolean;
 }
 
 const MyAparments = () => {
@@ -59,6 +60,7 @@ const MyAparments = () => {
             description={aparment.description}
             phone={aparment.phone}
             email={aparment.email}
+            free={aparment.free}
             typeAction="edit"
           />
         ))}

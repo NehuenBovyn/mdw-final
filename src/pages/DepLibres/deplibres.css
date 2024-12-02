@@ -23,6 +23,13 @@
 .aparments-content {
   display: flex;
   flex-direction: row;
-
   flex-wrap: wrap;
+  width: 100%;
+}
+
+.container-dep-libres {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
 }

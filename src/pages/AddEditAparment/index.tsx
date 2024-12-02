@@ -18,7 +18,6 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id_apartment } = location.state || {};
-  console.log('id_aparment: ADDEDITAPARMENT', id_apartment);
 
   const [nameBuilding, setnameBuilding] = useState('');
   const [m2, setm2] = useState('');
@@ -28,6 +27,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const firebaseId = getAuth().currentUser?.uid || '';
+  const [freeStatus, setFreeStatus] = useState(true);
 
   useEffect(() => {
     if (typeAction === 'edit') {
@@ -40,6 +40,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           setCodAparment(aparmentData.cod);
           setAdress(aparmentData.adress);
           setDescription(aparmentData.description);
+          setFreeStatus(aparmentData.free);
         } catch (error: any) {
           Notify({
             message: `Error al obtener el departamento: ${error.message}`,
@@ -52,10 +53,42 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
   }, [typeAction]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleFreeStatus = async () => {
+    try {
+      const newStatus = !freeStatus; // Invierte el estado actual
+      setFreeStatus(newStatus); // Actualiza el estado local
+
+      // Actualiza en la base de datos
+      await updateAparment({
+        id_apartment,
+        firebase_id: firebaseId,
+        adress,
+        m2: Number(m2),
+        floor: Number(floor),
+        cod: codAparment,
+        description,
+        building: nameBuilding,
+        phone: '',
+        email: '',
+        free: newStatus, // Actualiza el valor invertido
+      });
+
+      Notify({
+        message: `El apartamento ahora está ${
+          newStatus ? 'libre' : 'ocupado'
+        }.`,
+        type: 'success',
+      });
+    } catch (error: any) {
+      Notify({
+        message: `Error al actualizar el estado del apartamento: ${error.message}`,
+        type: 'error',
+      });
+    }
+  };
 
   const deleteApartment = async () => {
     try {
-      console.log('id_apartment:APARMEEEEENT', id_apartment);
       await deleteAparment(id_apartment);
       setIsModalOpen(false);
       Notify({
@@ -93,6 +126,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           building: nameBuilding,
           phone: '',
           email: '',
+          free: freeStatus,
         });
         Notify({
           message: 'Departamento agregado correctamente.',
@@ -111,6 +145,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
           building: nameBuilding,
           phone: '',
           email: '',
+          free: freeStatus,
         });
         Notify({
           message: 'Departamento editado correctamente.',
@@ -192,9 +227,22 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
             />
           </div>
           <button
+            className={`flex items-center  px-4 py-2 justify-center rounded-md ${
+              freeStatus
+                ? 'bg-green-500 hover:bg-green-400'
+                : 'bg-red-500 hover:bg-red-400'
+            } text-white`}
+            onClick={toggleFreeStatus}
+          >
+            <span className="material-icons">
+              {freeStatus ? 'block' : 'check_circle'}
+            </span>
+            {freeStatus ? 'Marcar como ocupado' : 'Marcar como libre'}
+          </button>
+          <button
             onClick={handleAddEditAparment}
             disabled={loading}
-            className="mt-2 w-full flex items-center justify-center bg-primary text-white py-2 rounded-lg hover:bg-tertiary disabled:opacity-50"
+            className=" w-full flex items-center justify-center bg-primary text-white py-2 rounded-lg hover:bg-tertiary disabled:opacity-50"
           >
             <span className="material-icons">save</span>
             {loading ? 'Guardando...' : 'Guardar departamento'}
