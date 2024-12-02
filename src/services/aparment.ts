@@ -62,7 +62,7 @@ export const updateAparment = async (
 ): Promise<AparmentData> => {
   try {
     const response = await apiClient.put<AparmentData>(
-      `/aparments/${aparmentData.firebase_id}`,
+      `/aparments/${aparmentData.id_apartment}`,
       aparmentData
     );
     return response.data;
