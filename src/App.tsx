@@ -55,7 +55,6 @@ const App = () => {
               path="/edit-aparment"
               element={<EditAddAparment typeAction="edit" />}
             />
-            {/* //en caso de que este logueado que no lo redireccione a login devuelta */}
             <Route path="*" element={<Navigate to="/home" replace />} />
           </Route>
         </Route>

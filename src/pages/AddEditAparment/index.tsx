@@ -55,10 +55,8 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleFreeStatus = async () => {
     try {
-      const newStatus = !freeStatus; // Invierte el estado actual
-      setFreeStatus(newStatus); // Actualiza el estado local
-
-      // Actualiza en la base de datos
+      const newStatus = !freeStatus;
+      setFreeStatus(newStatus);
       await updateAparment({
         id_apartment,
         firebase_id: firebaseId,
@@ -70,7 +68,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
         building: nameBuilding,
         phone: '',
         email: '',
-        free: newStatus, // Actualiza el valor invertido
+        free: newStatus,
       });
 
       Notify({
@@ -226,19 +224,21 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
-          <button
-            className={`flex items-center  px-4 py-2 justify-center rounded-md ${
-              freeStatus
-                ? 'bg-green-500 hover:bg-green-400'
-                : 'bg-red-500 hover:bg-red-400'
-            } text-white`}
-            onClick={toggleFreeStatus}
-          >
-            <span className="material-icons">
-              {freeStatus ? 'block' : 'check_circle'}
-            </span>
-            {freeStatus ? 'Marcar como ocupado' : 'Marcar como libre'}
-          </button>
+          {typeAction === 'edit' && (
+            <button
+              className={`flex items-center  px-4 py-2 justify-center rounded-md ${
+                freeStatus
+                  ? 'bg-green-500 hover:bg-green-400'
+                  : 'bg-red-500 hover:bg-red-400'
+              } text-white`}
+              onClick={toggleFreeStatus}
+            >
+              <span className="material-icons">
+                {freeStatus ? 'block' : 'check_circle'}
+              </span>
+              {freeStatus ? 'Marcar como ocupado' : 'Marcar como libre'}
+            </button>
+          )}
           <button
             onClick={handleAddEditAparment}
             disabled={loading}

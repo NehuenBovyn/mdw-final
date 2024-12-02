@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AparmentEdit from '../../components/AparmentEdit/AparmentEdit';
 import ButtonRedirect from '../../components/ButtonRedirect/ButtonRedirect';
 import { getAparmentByUser } from '../../services/aparment';
-import './MyAparments.css'; // Importa el archivo CSS
+import './MyAparments.css';
 
 interface AparmentData {
   id_apartment: string;
