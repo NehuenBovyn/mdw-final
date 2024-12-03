@@ -133,7 +133,7 @@ const EditAddAparment: React.FC<EditAddAparmentProps> = ({ typeAction }) => {
         navigate('/my-aparments');
       } else {
         await updateAparment({
-          id_apartment: '',
+          id_apartment: id_apartment,
           firebase_id: firebaseId,
           adress,
           m2: Number(m2),
